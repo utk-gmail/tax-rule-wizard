@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import DocumentCategory from "@/components/DocumentCategory";
 import ValidationRuleModal from "@/components/ValidationRuleModal";
@@ -12,7 +11,7 @@ const Index = () => {
     {
       id: "tax-return",
       title: "Business Tax Return",
-      description: "Last 3 years of business tax returns required",
+      description: "Business tax return documents",
       required: 3,
       uploaded: 1,
       status: "pending" as const,
@@ -24,7 +23,7 @@ const Index = () => {
     {
       id: "bfs",
       title: "BFS (Business Financial Statement)",
-      description: "Latest profit & Loss and Balance sheet is required",
+      description: "Profit & Loss and Balance sheet documents",
       required: 2,
       uploaded: 1,
       status: "pending" as const,
@@ -36,7 +35,7 @@ const Index = () => {
     {
       id: "rent-roll",
       title: "Rent Roll",
-      description: "Last year rent roll is required",
+      description: "Rent roll documentation",
       required: 1,
       uploaded: 2,
       status: "issues" as const,

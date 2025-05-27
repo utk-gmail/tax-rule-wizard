@@ -31,13 +31,46 @@ const DocumentCategory = ({ category, onAddValidationRule, onViewAllRules }: Doc
             checked={category.status === "complete"}
             readOnly
           />
-          <div>
+          <div className="flex-1">
             <h3 className="text-lg font-semibold text-gray-900 mb-1">
               {category.title}
             </h3>
+            
+            {/* Validation Rules Chips - moved below title */}
+            <div className="mb-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                {category.validationRules.length > 0 && (
+                  <Badge variant="outline" className="text-sm">
+                    {category.validationRules[0]}
+                  </Badge>
+                )}
+                {category.validationRules.length > 1 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onViewAllRules}
+                    className="text-blue-600 hover:text-blue-700 p-1 h-auto"
+                  >
+                    <MoreHorizontal className="h-4 w-4" />
+                    <span className="ml-1 text-xs">more</span>
+                  </Button>
+                )}
+              </div>
+            </div>
+
             <p className="text-sm text-gray-600 mb-2">
               {category.description}
             </p>
+            
+            {/* Link to show more validation rules */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onViewAllRules}
+              className="text-blue-600 hover:text-blue-700 p-0 h-auto text-sm underline"
+            >
+              Show more validation rules
+            </Button>
           </div>
         </div>
         
@@ -69,28 +102,6 @@ const DocumentCategory = ({ category, onAddValidationRule, onViewAllRules }: Doc
             </Button>
           </div>
         ))}
-      </div>
-
-      {/* Validation Rules Chips */}
-      <div className="mb-4">
-        <div className="flex items-center gap-2 flex-wrap">
-          {category.validationRules.length > 0 && (
-            <Badge variant="outline" className="text-sm">
-              {category.validationRules[0]}
-            </Badge>
-          )}
-          {category.validationRules.length > 1 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onViewAllRules}
-              className="text-blue-600 hover:text-blue-700 p-1 h-auto"
-            >
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="ml-1 text-xs">more</span>
-            </Button>
-          )}
-        </div>
       </div>
 
       <Button

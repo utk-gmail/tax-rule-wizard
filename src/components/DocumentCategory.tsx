@@ -1,9 +1,9 @@
 
-import { Download } from "lucide-react";
+import { Download, MoreHorizontal } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import StatusBadge from "@/components/StatusBadge";
-import FileUpload from "@/components/FileUpload";
 
 interface DocumentCategoryProps {
   category: {
@@ -17,9 +17,10 @@ interface DocumentCategoryProps {
     validationRules: string[];
   };
   onAddValidationRule: () => void;
+  onViewAllRules: () => void;
 }
 
-const DocumentCategory = ({ category, onAddValidationRule }: DocumentCategoryProps) => {
+const DocumentCategory = ({ category, onAddValidationRule, onViewAllRules }: DocumentCategoryProps) => {
   return (
     <Card className="p-6 bg-white shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-4">
@@ -70,13 +71,33 @@ const DocumentCategory = ({ category, onAddValidationRule }: DocumentCategoryPro
         ))}
       </div>
 
-      <FileUpload />
+      {/* Validation Rules Chips */}
+      <div className="mb-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          {category.validationRules.length > 0 && (
+            <Badge variant="outline" className="text-sm">
+              {category.validationRules[0]}
+            </Badge>
+          )}
+          {category.validationRules.length > 1 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onViewAllRules}
+              className="text-blue-600 hover:text-blue-700 p-1 h-auto"
+            >
+              <MoreHorizontal className="h-4 w-4" />
+              <span className="ml-1 text-xs">more</span>
+            </Button>
+          )}
+        </div>
+      </div>
 
       <Button
         variant="ghost"
         size="sm"
         onClick={onAddValidationRule}
-        className="mt-3 text-blue-600 hover:text-blue-700"
+        className="text-blue-600 hover:text-blue-700"
       >
         + Add Validation Rule
       </Button>

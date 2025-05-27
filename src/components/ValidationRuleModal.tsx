@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { X, Plus, Trash2 } from "lucide-react";
 import {
@@ -16,13 +17,15 @@ interface ValidationRuleModalProps {
   onClose: () => void;
   categoryId: string;
   existingRules: string[];
+  readOnly?: boolean;
 }
 
 const ValidationRuleModal = ({
   isOpen,
   onClose,
   categoryId,
-  existingRules
+  existingRules,
+  readOnly = false
 }: ValidationRuleModalProps) => {
   const [newRule, setNewRule] = useState("");
   const [rules, setRules] = useState(existingRules);
@@ -61,7 +64,7 @@ const ValidationRuleModal = ({
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
-            Manage Validation Rules
+            {readOnly ? "Validation Rules" : "Manage Validation Rules"}
           </DialogTitle>
         </DialogHeader>
 
@@ -83,14 +86,16 @@ const ValidationRuleModal = ({
                       <p className="text-sm text-gray-700 flex-1 mr-3">
                         {rule}
                       </p>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDeleteRule(index)}
-                        className="text-red-600 hover:text-red-700 p-1"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      {!readOnly && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDeleteRule(index)}
+                          className="text-red-600 hover:text-red-700 p-1"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
                     </div>
                   </Card>
                 ))
@@ -98,50 +103,56 @@ const ValidationRuleModal = ({
             </div>
           </div>
 
-          {/* Add New Rule */}
-          <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-3">
-              Add New Rule
-            </h3>
-            <div className="space-y-3">
-              <Textarea
-                placeholder="Describe your validation rule in natural language (e.g., 'All documents must be from the last 2 years')"
-                value={newRule}
-                onChange={(e) => setNewRule(e.target.value)}
-                className="min-h-[100px]"
-              />
-              <Button
-                onClick={handleAddRule}
-                disabled={!newRule.trim()}
-                className="w-full"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Rule
-              </Button>
+          {/* Add New Rule - only show if not read-only */}
+          {!readOnly && (
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-3">
+                Add New Rule
+              </h3>
+              <div className="space-y-3">
+                <Textarea
+                  placeholder="Describe your validation rule in natural language (e.g., 'All documents must be from the last 2 years')"
+                  value={newRule}
+                  onChange={(e) => setNewRule(e.target.value)}
+                  className="min-h-[100px]"
+                />
+                <Button
+                  onClick={handleAddRule}
+                  disabled={!newRule.trim()}
+                  className="w-full"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Rule
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Example Rules */}
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <h4 className="text-sm font-medium text-blue-900 mb-2">
-              Example Rules:
-            </h4>
-            <ul className="text-sm text-blue-800 space-y-1">
-              <li>• All tax returns must be from the last 3 years</li>
-              <li>• Financial statements must include both P&L and Balance Sheet</li>
-              <li>• Documents must be in PDF format and under 10MB</li>
-              <li>• All signatures must be clearly visible and not digitally generated</li>
-            </ul>
-          </div>
+          {/* Example Rules - only show if not read-only */}
+          {!readOnly && (
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h4 className="text-sm font-medium text-blue-900 mb-2">
+                Example Rules:
+              </h4>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• All tax returns must be from the last 3 years</li>
+                <li>• Financial statements must include both P&L and Balance Sheet</li>
+                <li>• Documents must be in PDF format and under 10MB</li>
+                <li>• All signatures must be clearly visible and not digitally generated</li>
+              </ul>
+            </div>
+          )}
 
           {/* Action Buttons */}
           <div className="flex justify-end space-x-3 pt-4 border-t">
             <Button variant="outline" onClick={onClose}>
-              Cancel
+              {readOnly ? "Close" : "Cancel"}
             </Button>
-            <Button onClick={handleSave}>
-              Save Changes
-            </Button>
+            {!readOnly && (
+              <Button onClick={handleSave}>
+                Save Changes
+              </Button>
+            )}
           </div>
         </div>
       </DialogContent>

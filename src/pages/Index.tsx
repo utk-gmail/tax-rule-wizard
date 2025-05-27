@@ -6,6 +6,7 @@ import ValidationRuleModal from "@/components/ValidationRuleModal";
 const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [modalReadOnly, setModalReadOnly] = useState(false);
 
   const documentCategories = [
     {
@@ -49,6 +50,13 @@ const Index = () => {
 
   const handleAddValidationRule = (categoryId: string) => {
     setSelectedCategory(categoryId);
+    setModalReadOnly(false);
+    setIsModalOpen(true);
+  };
+
+  const handleViewAllRules = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    setModalReadOnly(true);
     setIsModalOpen(true);
   };
 
@@ -70,6 +78,7 @@ const Index = () => {
               key={category.id}
               category={category}
               onAddValidationRule={() => handleAddValidationRule(category.id)}
+              onViewAllRules={() => handleViewAllRules(category.id)}
             />
           ))}
         </div>
@@ -82,6 +91,7 @@ const Index = () => {
         existingRules={
           documentCategories.find(cat => cat.id === selectedCategory)?.validationRules || []
         }
+        readOnly={modalReadOnly}
       />
     </div>
   );

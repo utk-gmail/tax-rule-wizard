@@ -18,9 +18,10 @@ interface DocumentCategoryProps {
   };
   onAddValidationRule: () => void;
   onViewAllRules: () => void;
+  onStatusClick: () => void;
 }
 
-const DocumentCategory = ({ category, onAddValidationRule, onViewAllRules }: DocumentCategoryProps) => {
+const DocumentCategory = ({ category, onAddValidationRule, onViewAllRules, onStatusClick }: DocumentCategoryProps) => {
   return (
     <Card className="p-6 bg-white shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-4">
@@ -32,12 +33,12 @@ const DocumentCategory = ({ category, onAddValidationRule, onViewAllRules }: Doc
             readOnly
           />
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
               {category.title}
             </h3>
             
             {/* Validation Rules Chips - moved below title */}
-            <div className="mb-2">
+            <div className="mb-3">
               <div className="flex items-center gap-2 flex-wrap">
                 {category.validationRules.length > 0 && (
                   <Badge variant="outline" className="text-sm">
@@ -57,17 +58,13 @@ const DocumentCategory = ({ category, onAddValidationRule, onViewAllRules }: Doc
                 )}
               </div>
             </div>
-
-            <p className="text-sm text-gray-600 mb-2">
-              {category.description}
-            </p>
             
             {/* Link to show more validation rules */}
             <Button
               variant="ghost"
               size="sm"
               onClick={onViewAllRules}
-              className="text-blue-600 hover:text-blue-700 p-0 h-auto text-sm underline"
+              className="text-blue-600 hover:text-blue-700 p-0 h-auto text-sm underline mb-2"
             >
               Show more validation rules
             </Button>
@@ -78,7 +75,9 @@ const DocumentCategory = ({ category, onAddValidationRule, onViewAllRules }: Doc
           <span className="text-sm text-gray-500">
             {category.uploaded}/{category.required} required
           </span>
-          <StatusBadge status={category.status} />
+          <div onClick={onStatusClick} className="cursor-pointer">
+            <StatusBadge status={category.status} />
+          </div>
           <Button variant="ghost" size="sm">
             <Download className="h-4 w-4" />
           </Button>

@@ -1,9 +1,12 @@
+
 import { useState } from "react";
 import DocumentCategory from "@/components/DocumentCategory";
 import ValidationRuleModal from "@/components/ValidationRuleModal";
+import DocumentDetailModal from "@/components/DocumentDetailModal";
 
 const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [modalReadOnly, setModalReadOnly] = useState(false);
 
@@ -11,7 +14,7 @@ const Index = () => {
     {
       id: "tax-return",
       title: "Business Tax Return",
-      description: "Business tax return documents",
+      description: "",
       required: 3,
       uploaded: 1,
       status: "pending" as const,
@@ -23,7 +26,7 @@ const Index = () => {
     {
       id: "bfs",
       title: "BFS (Business Financial Statement)",
-      description: "Profit & Loss and Balance sheet documents",
+      description: "",
       required: 2,
       uploaded: 1,
       status: "pending" as const,
@@ -35,7 +38,7 @@ const Index = () => {
     {
       id: "rent-roll",
       title: "Rent Roll",
-      description: "Rent roll documentation",
+      description: "",
       required: 1,
       uploaded: 2,
       status: "issues" as const,
@@ -59,6 +62,13 @@ const Index = () => {
     setIsModalOpen(true);
   };
 
+  const handleStatusClick = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    setIsDetailModalOpen(true);
+  };
+
+  const selectedCategoryData = documentCategories.find(cat => cat.id === selectedCategory);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-6 py-8">
@@ -78,6 +88,7 @@ const Index = () => {
               category={category}
               onAddValidationRule={() => handleAddValidationRule(category.id)}
               onViewAllRules={() => handleViewAllRules(category.id)}
+              onStatusClick={() => handleStatusClick(category.id)}
             />
           ))}
         </div>
@@ -92,6 +103,18 @@ const Index = () => {
         }
         readOnly={modalReadOnly}
       />
+
+      {selectedCategoryData && (
+        <DocumentDetailModal
+          isOpen={isDetailModalOpen}
+          onClose={() => setIsDetailModalOpen(false)}
+          category={selectedCategoryData}
+          onAddRule={() => {
+            setIsDetailModalOpen(false);
+            handleAddValidationRule(selectedCategory);
+          }}
+        />
+      )}
     </div>
   );
 };

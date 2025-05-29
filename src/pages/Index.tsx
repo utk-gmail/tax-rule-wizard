@@ -1,8 +1,8 @@
-
 import { useState } from "react";
 import DocumentCategory from "@/components/DocumentCategory";
 import ValidationRuleModal from "@/components/ValidationRuleModal";
 import DocumentDetailModal from "@/components/DocumentDetailModal";
+import TopMenuBar from "@/components/TopMenuBar";
 
 const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,11 +71,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <TopMenuBar />
       <div className="max-w-6xl mx-auto px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Document Management System
-          </h1>
           <p className="text-gray-600">
             Track and manage your business documents with automated validation
           </p>
